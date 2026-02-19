@@ -32,3 +32,27 @@
   </script>
 </body>
 </html>
+styles: [
+  // 글자/아이콘 숨기기
+  { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
+  { featureType: "poi", stylers: [{ visibility: "off" }] },
+  { featureType: "transit", stylers: [{ visibility: "off" }] },
+
+  // 전체 톤 다운(파스텔/레트로 느낌)
+  { featureType: "all", elementType: "geometry", stylers: [{ saturation: -60 }, { lightness: 10 }] },
+
+  // 물(바다/강)
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#7cc7d9" }] },
+
+  // 땅(기본 바탕)
+  { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#f6f1e5" }] },
+
+  // 도로
+  { featureType: "road", elementType: "geometry", stylers: [{ color: "#5b6b7a }, { weight: 1.2 }] },
+
+  // 도로 테두리 느낌(조금 부드럽게)
+  { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#ffffff" }] },
+
+  // 공원
+  { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#b8d8b8 }] }
+]
