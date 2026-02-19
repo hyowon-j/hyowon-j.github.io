@@ -113,30 +113,29 @@
     }
 
     function addMarker(lat, lng, title, category) {
-      const marker = new google.maps.Marker({
-        position: { lat, lng },
-        map,
-        title,
-  icon: {
-  url: "https://maps.google.com/mapfiles/kml/shapes/star.png",
-  scaledSize: new google.maps.Size(28, 28)
-}
-      });
-
-      marker.category = category;
-
-      const info = new google.maps.InfoWindow({
-  content: `
-    <div class="retro-popup">
-      ${title}
-    </div>
-  `
-});
-
-      marker.addListener("click", () => info.open(map, marker));
-
-      markers.push(marker);
+  const marker = new google.maps.Marker({
+    position: { lat, lng },
+    map,
+    title,
+    icon: {
+      url: "https://maps.google.com/mapfiles/kml/shapes/star.png",
+      scaledSize: new google.maps.Size(28, 28)
     }
+  });
+
+  marker.category = category;
+
+  const info = new google.maps.InfoWindow({
+    content: `
+      <div class="retro-popup">
+        ${title}
+      </div>
+    `
+  });
+
+  marker.addListener("click", () => info.open(map, marker));
+  markers.push(marker);
+}
 
     function showCategory(category) {
       markers.forEach(marker => {
