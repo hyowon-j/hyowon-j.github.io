@@ -16,21 +16,6 @@
       const melbourne = { lat: -37.8136, lng: 144.9631 };
 
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 13,
-        center: melbourne,
-        styles: [
-          { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
-          { featureType: "poi", stylers: [{ visibility: "off" }] },
-          { featureType: "transit", stylers: [{ visibility: "off" }] }
-        ]
-      });
-    }
-  </script>
-
-  <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOL2NKHM4lBk7SMTaaVMYsJPGQmEpvylw&callback=initMap">
-  </script>
-const map = new google.maps.Map(document.getElementById("map"), {
   zoom: 13,
   center: melbourne,
 
@@ -70,3 +55,9 @@ const map = new google.maps.Map(document.getElementById("map"), {
     }
   ]
 });
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOL2NKHM4lBk7SMTaaVMYsJPGQmEpvylw&callback=initMap">
+  </script>
