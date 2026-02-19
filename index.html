@@ -1,57 +1,138 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Hyowon</title>
-  </head>
- <body>
-  <h1>🌍 Melbourne Pixel Map</h1>
-  <p>Hello! I'm Hyowon.</p>
-  <p>My pixel landmark map is coming soon ✨</p>
 
-  <div id="map" style="width:100%; height:70vh;"></div>
+<head>
+  <meta charset="utf-8" />
+  <title>Melbourne Pixel Map</title>
+
+  <!-- 🎮 픽셀 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: #f3efe3;
+      font-family: 'Press Start 2P', monospace;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    /* 🎮 게임 HUD 스타일 */
+    .menu {
+      margin: 15px 0;
+    }
+
+    .menu button {
+      font-family: 'Press Start 2P';
+      background: #222;
+      color: #fff;
+      border: 4px solid #000;
+      padding: 10px 14px;
+      margin: 4px;
+      cursor: pointer;
+    }
+
+    .menu button:hover {
+      background: #ffcc00;
+      color: #000;
+    }
+
+    /* 🎮 게임 프레임 지도 */
+    #map {
+      width: 92%;
+      height: 65vh;
+      margin: auto;
+      border: 8px solid black;
+      box-shadow:
+        0 0 0 8px #4a4a4a,
+        0 0 0 16px #222;
+    }
+
+    /* 🎮 픽셀 팝업 스타일 */
+    .gm-style .gm-style-iw-c {
+      border-radius: 0 !important;
+      padding: 12px !important;
+      font-family: 'Press Start 2P';
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🌍 Melbourne Pixel Map</h1>
+  <p>Explore like a retro adventure 🎮</p>
+
+  <!-- 🎮 카테고리 메뉴 -->
+  <div class="menu">
+    <button onclick="showCategory('all')">ALL</button>
+    <button onclick="showCategory('food')">FOOD</button>
+    <button onclick="showCategory('shop')">SHOP</button>
+    <button onclick="showCategory('landmark')">LANDMARK</button>
+  </div>
+
+  <div id="map"></div>
 
   <script>
+    let map;
+    let markers = [];
+
     function initMap() {
       const melbourne = { lat: -37.8136, lng: 144.9631 };
 
-      const map = new google.maps.Map(document.getElementById("map"), {
-  zoom: 13,
-  center: melbourne,
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 13,
+        center: melbourne,
+        disableDefaultUI: true,
+        styles: [
+          { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
+          { featureType: "poi", stylers: [{ visibility: "off" }] },
+          { featureType: "transit", stylers: [{ visibility: "off" }] },
 
-  disableDefaultUI: true,   
+          { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#f3efe3" }] },
+          { featureType: "water", elementType: "geometry", stylers: [{ color: "#b7d3d0" }] },
+          { featureType: "road", elementType: "geometry", stylers: [{ color: "#a08f6d" }] },
+          { featureType: "road.local", elementType: "geometry", stylers: [{ color: "#c2b59b" }] },
+          { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#d8e2c8" }] }
+        ]
+      });
 
-  styles: [
-    { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
-    { featureType: "poi", stylers: [{ visibility: "off" }] },
-    { featureType: "transit", stylers: [{ visibility: "off" }] },
-
-    {
-      featureType: "landscape",
-      elementType: "geometry",
-      stylers: [{ color: "#f3efe3" }]
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [{ color: "#b7d3d0" }]
-    },
-    {
-      featureType: "road",
-      elementType: "geometry",
-      stylers: [{ color: "#a08f6d" }]
-    },
-    {
-      featureType: "road.local",
-      elementType: "geometry",
-      stylers: [{ color: "#c2b59b" }]
-    },
-    {
-      featureType: "poi.park",
-      elementType: "geometry",
-      stylers: [{ color: "#d8e2c8" }]
+      addMarker(-37.8183, 144.9671, "Flinders Street Station", "landmark");
+      addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
+      addMarker(-37.8150, 144.9605, "Hardware Société", "food");
     }
-  ]
+
+    function addMarker(lat, lng, title, category) {
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map,
+        title,
+        icon: {
+          url: "https://maps.google.com/mapfiles/kml/shapes/star.png",
+          scaledSize: new google.maps.Size(32, 32)
+        }
+      });
+
+      marker.category = category;
+
+      const info = new google.maps.InfoWindow({
+        content: `<div>${title}</div>`
+      });
+
+      marker.addListener("click", () => info.open(map, marker));
+
+      markers.push(marker);
+    }
+
+    function showCategory(category) {
+      markers.forEach(marker => {
+        if (category === "all" || marker.category === category) {
+          marker.setMap(map);
+        } else {
+          marker.setMap(null);
+        }
 });
     }
   </script>
