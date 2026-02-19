@@ -57,6 +57,14 @@
       padding: 12px !important;
       font-family: 'Press Start 2P';
     }
+  .retro-popup{
+    background:#f4f1e8;
+    border:2px solid #000;
+    padding:8px 12px;
+    font-family:'Press Start 2P', monospace;
+    font-size:10px;
+    line-height:1.4;
+  }
   </style>
 </head>
 
@@ -119,13 +127,7 @@
 
       const info = new google.maps.InfoWindow({
   content: `
-    <div style="
-      background:#f4f1e8;
-      border:2px solid #000;
-      padding:6px 12px;
-      font-family:'Press Start 2P', monospace;
-      font-size:10px;
-    ">
+    <div class="retro-popup">
       ${title}
     </div>
   `
