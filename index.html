@@ -33,26 +33,43 @@
 </body>
 </html>
 styles: [
-  // 글자/아이콘 숨기기
+  // 글자 & 아이콘 숨기기
   { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
   { featureType: "poi", stylers: [{ visibility: "off" }] },
   { featureType: "transit", stylers: [{ visibility: "off" }] },
 
-  // 전체 톤 다운(파스텔/레트로 느낌)
-  { featureType: "all", elementType: "geometry", stylers: [{ saturation: -60 }, { lightness: 10 }] },
+  // 전체 종이톤
+  {
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [{ color: "#f3efe3" }]
+  },
 
-  // 물(바다/강)
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#7cc7d9" }] },
+  // 물 색 (청록 느낌)
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [{ color: "#b7d3d0" }]
+  },
 
-  // 땅(기본 바탕)
-  { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#f6f1e5" }] },
+  // 도로 (빈티지 브라운 잉크 느낌)
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [{ color: "#a08f6d" }]
+  },
 
-  // 도로
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#5b6b7a }, { weight: 1.2 }] },
+  // 작은 도로 더 연하게
+  {
+    featureType: "road.local",
+    elementType: "geometry",
+    stylers: [{ color: "#c2b59b" }]
+  },
 
-  // 도로 테두리 느낌(조금 부드럽게)
-  { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#ffffff" }] },
-
-  // 공원
-  { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#b8d8b8 }] }
+  // 공원 (연한 올리브)
+  {
+    featureType: "poi.park",
+    elementType: "geometry",
+    stylers: [{ color: "#d8e2c8" }]
+  }
 ]
