@@ -129,12 +129,12 @@
 
   let size;
 
-  if (zoom >= 17) size = 110;
-  else if (zoom >= 16) size = 90;
-  else if (zoom >= 15) size = 75;
-  else if (zoom >= 14) size = 60;
-  else if (zoom >= 13) size = 52;
-  else size = 40;
+  if (zoom >= 17) size = 420;
+  else if (zoom >= 16) size = 360;
+  else if (zoom >= 15) size = 300;
+  else if (zoom >= 14) size = 240;
+  else if (zoom >= 13) size = 200;
+  else size = 160;   // ⭐ 기본값도 큼
 
   markers.forEach(marker => {
     const icon = marker.getIcon();
@@ -147,17 +147,6 @@
     }
   });
 }
-  // ✅ 카테고리 필터
-  function showCategory(category) {
-    markers.forEach(marker => {
-      if (category === "all" || marker.category === category) {
-        marker.setMap(map);
-      } else {
-        marker.setMap(null);
-      }
-    });
-  }
-
   // ✅ 여기서부터가 initMap (지도 생성 + 마커 추가 "호출"만)
   function initMap() {
     const melbourne = { lat: -37.8136, lng: 144.9631 };
