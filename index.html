@@ -83,100 +83,111 @@
 
   <div id="map"></div>
 
-  <script>
-    let map;
-    let markers = [];
+<script>
+  let map;
+  const markers = []; // 모든 마커 저장
 
-    function initMap() {
-      const melbourne = { lat: -37.8136, lng: 144.9631 };
+  // ✅ 마커 만들기 함수 (initMap 밖에 둠)
+  function addMarker(lat, lng, title, category, iconFile = null) {
+    const markerOptions = {
+      position: { lat, lng },
+      map,
+      title
+    };
 
-      map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 13,
-        center: melbourne,
-        disableDefaultUI: true,
-        styles: [
-          { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
-          { featureType: "poi", stylers: [{ visibility: "off" }] },
-          { featureType: "transit", stylers: [{ visibility: "off" }] },
+    // 아이콘이 있는 마커만 커스텀 아이콘 적용
+    if (iconFile) {
+      markerOptions.icon = {
+        url: iconFile,
+        scaledSize: new google.maps.Size(52, 52),
+        anchor: new google.maps.Point(26, 52) // 아래 중앙
+      };
+    }
 
-          { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#f3efe3" }] },
-          { featureType: "water", elementType: "geometry", stylers: [{ color: "#b7d3d0" }] },
-          { featureType: "road", elementType: "geometry", stylers: [{ color: "#a08f6d" }] },
-          { featureType: "road.local", elementType: "geometry", stylers: [{ color: "#c2b59b" }] },
-          { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#d8e2c8" }] }
-        ]
-      });
+    const marker = new google.maps.Marker(markerOptions);
 
-      map.addListener("zoom_changed", updateMarkerSize);
+    marker.category = category;
+    marker.iconUrl = iconFile; // ✅ 나중에 줌에 따라 사이즈 바꿀 때 필요
 
-      // ✅ 여기서 마커들 추가
+    const info = new google.maps.InfoWindow({
+      content: `
+        <div class="retro-popup">
+          ${title}
+        </div>
+      `
+    });
+
+    marker.addListener("click", () => info.open(map, marker));
+
+    markers.push(marker);
+    return marker;
+  }
+
+  // ✅ 줌에 따라 아이콘 크기 바꾸는 함수 (initMap 밖)
+  function updateMarkerSize() {
+    const zoom = map.getZoom();
+
+    let size = 40;
+    if (zoom >= 15) size = 70;
+    else if (zoom >= 14) size = 60;
+    else if (zoom >= 13) size = 52;
+
+    markers.forEach(marker => {
+      // 커스텀 아이콘 마커만 사이즈 조절
+      if (marker.iconUrl) {
+        marker.setIcon({
+          url: marker.iconUrl,
+          scaledSize: new google.maps.Size(size, size),
+          anchor: new google.maps.Point(size / 2, size) // 아래 중앙 유지
+        });
+      }
+    });
+  }
+
+  // ✅ 카테고리 필터
+  function showCategory(category) {
+    markers.forEach(marker => {
+      if (category === "all" || marker.category === category) {
+        marker.setMap(map);
+      } else {
+        marker.setMap(null);
+      }
+    });
+  }
+
+  // ✅ 여기서부터가 initMap (지도 생성 + 마커 추가 "호출"만)
+  function initMap() {
+    const melbourne = { lat: -37.8136, lng: 144.9631 };
+
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: melbourne,
+      disableDefaultUI: true,
+      styles: [
+        { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
+        { featureType: "poi", stylers: [{ visibility: "off" }] },
+        { featureType: "transit", stylers: [{ visibility: "off" }] },
+
+        { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#f3efe3" }] },
+        { featureType: "water", elementType: "geometry", stylers: [{ color: "#b7d3d0" }] },
+        { featureType: "road", elementType: "geometry", stylers: [{ color: "#a08f6d" }] },
+        { featureType: "road.local", elementType: "geometry", stylers: [{ color: "#c2b59b" }] },
+        { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#d8e2c8" }] }
+      ]
+    });
+
+    // ✅ 마커 추가 (플린더스만 아이콘 적용)
     addMarker(-37.8183, 144.9671, "Flinders Street Station", "landmark", "icons/landmark-flinders.png");
     addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
     addMarker(-37.8150, 144.9605, "Hardware Société", "food");
 
+    // ✅ 줌 변경될 때마다 아이콘 크기 업데이트
+    map.addListener("zoom_changed", updateMarkerSize);
+
+    // ✅ 처음 로드될 때도 1번 실행
     updateMarkerSize();
-      
   }
-
-  // ✅ initMap 밖에 있어야 함!
-  function addMarker(lat, lng, title, category, iconFile = null) {
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      map,
-      title,
-      icon: iconFile ? {
-        url: iconFile,
-        scaledSize: new google.maps.Size(52, 52),
-        anchor: new google.maps.Point(26, 52)
-      } : null
-    });
-
-function updateMarkerSize() {
-  const zoom = map.getZoom();
-
-  let size = 40;
-
-  if (zoom >= 15) size = 70;
-  else if (zoom >= 14) size = 60;
-  else if (zoom >= 13) size = 52;
-  else size = 40;
-
-  markers.forEach(marker => {
-    if (marker.getIcon()) {
-      marker.setIcon({
-        url: marker.getIcon().url,
-        scaledSize: new google.maps.Size(size, size),
-        anchor: new google.maps.Point(size/2, size)
-      });
-    }
-  });
-}
-    
-    marker.category = category;
-
-  const info = new google.maps.InfoWindow({
-    content: `
-      <div class="retro-popup">
-        ${title}
-      </div>
-    `
-  });
-
-  marker.addListener("click", () => info.open(map, marker));
-  markers.push(marker);
-}
-
-    function showCategory(category) {
-      markers.forEach(marker => {
-        if (category === "all" || marker.category === category) {
-          marker.setMap(map);
-        } else {
-          marker.setMap(null);
-        }
-});
-    }
-  </script>
-
+</script>
   <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOL2NKHM4lBk7SMTaaVMYsJPGQmEpvylw&callback=initMap">
   </script>
