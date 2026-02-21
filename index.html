@@ -129,7 +129,7 @@
 
   let size;
 
-  if (zoom >= 17) size = 380;
+  if (zoom >= 17) size = 340;
   else if (zoom >= 16) size = 290;
   else if (zoom >= 15) size = 230;
   else if (zoom >= 14) size = 180;
@@ -152,7 +152,7 @@
     const melbourne = { lat: -37.8136, lng: 144.9631 };
 
     map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 17,
+      zoom: 15,
       center: melbourne,
       disableDefaultUI: true,
       styles: [
