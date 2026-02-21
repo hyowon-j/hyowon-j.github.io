@@ -129,12 +129,12 @@
 
   let size;
 
-  if (zoom >= 17) size = 340;
-  else if (zoom >= 16) size = 290;
-  else if (zoom >= 15) size = 230;
-  else if (zoom >= 14) size = 180;
-  else if (zoom >= 13) size = 130;
-  else size = 130;   // ⭐ 기본값도 큼
+  if (zoom >= 17) size = 260;
+  else if (zoom >= 16) size = 220;
+  else if (zoom >= 15) size = 180;
+  else if (zoom >= 14) size = 140;
+  else if (zoom >= 13) size = 90;
+  else size = 90;   // ⭐ 기본값도 큼
 
   markers.forEach(marker => {
     const icon = marker.getIcon();
