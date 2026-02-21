@@ -126,6 +126,28 @@
       } : null
     });
 
+function updateMarkerSize() {
+  const zoom = map.getZoom();
+
+  let size = 40;
+
+  if (zoom >= 15) size = 70;
+  else if (zoom >= 14) size = 60;
+  else if (zoom >= 13) size = 52;
+  else size = 40;
+
+  markers.forEach(marker => {
+    if (marker.getIcon()) {
+      marker.setIcon({
+        url: marker.getIcon().url,
+        scaledSize: new google.maps.Size(size, size),
+        anchor: new google.maps.Point(size/2, size)
+      });
+    }
+  });
+}
+    map.addListener("zoom_changed", updateMarkerSize);
+    
     marker.category = category;
 
   const info = new google.maps.InfoWindow({
