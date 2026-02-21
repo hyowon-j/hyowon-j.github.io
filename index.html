@@ -107,25 +107,33 @@
         ]
       });
 
-      addMarker(-37.8183, 144.9671, "Flinders Street Station", "landmark");
+      addMarker(
+  -37.8183,
+  144.9671,
+  "Flinders Street Station",
+  "landmark",
+  "icons/landmark-flinders.png"
+);
       addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
       addMarker(-37.8150, 144.9605, "Hardware Société", "food");
     }
 
-    function addMarker(lat, lng, title, category) {
+    function addMarker(lat, lng, title, category, iconFile = null) {
+
   const marker = new google.maps.Marker({
     position: { lat, lng },
     map,
     title,
-      icon: {
-  url: "icons/landmark-flinders.png",
-  scaledSize: new google.maps.Size(36, 36),
-  anchor: new google.maps.Point(18, 36)
-}
+
+    icon: iconFile ? {
+      url: iconFile,
+      scaledSize: new google.maps.Size(52, 52),
+      anchor: new google.maps.Point(26, 52)
+    } : null
   });
 
   marker.category = category;
-
+}
   const info = new google.maps.InfoWindow({
     content: `
       <div class="retro-popup">
