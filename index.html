@@ -114,12 +114,11 @@
   "landmark",
   "icons/landmark-flinders.png"
 );
-      addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
-      addMarker(-37.8150, 144.9605, "Hardware Société", "food");
-    }
 
+addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
+addMarker(-37.8150, 144.9605, "Hardware Société", "food");
+      
     function addMarker(lat, lng, title, category, iconFile = null) {
-
   const marker = new google.maps.Marker({
     position: { lat, lng },
     map,
@@ -134,6 +133,7 @@
 
   marker.category = category;
 }
+    
   const info = new google.maps.InfoWindow({
     content: `
       <div class="retro-popup">
