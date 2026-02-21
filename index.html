@@ -107,33 +107,27 @@
         ]
       });
 
-      addMarker(
-  -37.8183,
-  144.9671,
-  "Flinders Street Station",
-  "landmark",
-  "icons/landmark-flinders.png"
-);
+      // ✅ 여기서 마커들 추가
+    addMarker(-37.8183, 144.9671, "Flinders Street Station", "landmark", "icons/landmark-flinders.png");
+    addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
+    addMarker(-37.8150, 144.9605, "Hardware Société", "food");
+  }
 
-addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
-addMarker(-37.8150, 144.9605, "Hardware Société", "food");
-      
-    function addMarker(lat, lng, title, category, iconFile = null) {
-  const marker = new google.maps.Marker({
-    position: { lat, lng },
-    map,
-    title,
+  // ✅ initMap 밖에 있어야 함!
+  function addMarker(lat, lng, title, category, iconFile = null) {
+    const marker = new google.maps.Marker({
+      position: { lat, lng },
+      map,
+      title,
+      icon: iconFile ? {
+        url: iconFile,
+        scaledSize: new google.maps.Size(52, 52),
+        anchor: new google.maps.Point(26, 52)
+      } : null
+    });
 
-    icon: iconFile ? {
-      url: iconFile,
-      scaledSize: new google.maps.Size(52, 52),
-      anchor: new google.maps.Point(26, 52)
-    } : null
-  });
+    marker.category = category;
 
-  marker.category = category;
-}
-    
   const info = new google.maps.InfoWindow({
     content: `
       <div class="retro-popup">
