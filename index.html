@@ -107,10 +107,15 @@
         ]
       });
 
+      map.addListener("zoom_changed", updateMarkerSize);
+
       // ✅ 여기서 마커들 추가
     addMarker(-37.8183, 144.9671, "Flinders Street Station", "landmark", "icons/landmark-flinders.png");
     addMarker(-37.8122, 144.9623, "Queen Victoria Market", "shop");
     addMarker(-37.8150, 144.9605, "Hardware Société", "food");
+
+    updateMarkerSize();
+      
   }
 
   // ✅ initMap 밖에 있어야 함!
@@ -146,7 +151,6 @@ function updateMarkerSize() {
     }
   });
 }
-    map.addListener("zoom_changed", updateMarkerSize);
     
     marker.category = category;
 
