@@ -125,24 +125,28 @@
 
   // ✅ 줌에 따라 아이콘 크기 바꾸는 함수 (initMap 밖)
   function updateMarkerSize() {
-    const zoom = map.getZoom();
+  const zoom = map.getZoom();
 
-    let size = 40;
-    if (zoom >= 15) size = 70;
-    else if (zoom >= 14) size = 60;
-    else if (zoom >= 13) size = 52;
+  let size;
 
-    markers.forEach(marker => {
-      // 커스텀 아이콘 마커만 사이즈 조절
-      if (marker.iconUrl) {
-        marker.setIcon({
-          url: marker.iconUrl,
-          scaledSize: new google.maps.Size(size, size),
-          anchor: new google.maps.Point(size / 2, size) // 아래 중앙 유지
-        });
-      }
-    });
-  }
+  if (zoom >= 17) size = 110;
+  else if (zoom >= 16) size = 90;
+  else if (zoom >= 15) size = 75;
+  else if (zoom >= 14) size = 60;
+  else if (zoom >= 13) size = 52;
+  else size = 40;
+
+  markers.forEach(marker => {
+    const icon = marker.getIcon();
+    if (icon && icon.url) {
+      marker.setIcon({
+        url: icon.url,
+        scaledSize: new google.maps.Size(size, size),
+        anchor: new google.maps.Point(size / 2, size)
+      });
+    }
+  });
+}
 
   // ✅ 카테고리 필터
   function showCategory(category) {
